@@ -17,11 +17,11 @@ model1 <- function(t, X, parameters) {
     list(c(dx1, dx2, dx3, dx4, dx5))
   })
 }
-parms <- c(D=0.2, s1=0.1, m1= 1.6,k1 =0.2,g1=10, m2= 1.4, k2 = 0.03,g2=2)
-Y0   <- c(0.001, 0.1, 0.005)
-Y1   <- c(0.001, 0.1, 0.1, 0.1, 0.005)
+#parms <- c(D=0.2, s1=0.1, m1= 1.6,k1 =0.2,g1=0.35, m2= 1.4, k2 = 0.03,g2=0.4)
+#Y0   <- c(0.001, 0.1, 0.005)
+#Y1   <- c(0.001, 0.1, 0.1, 0.1, 0.005)
 times <- seq(0,100,0.1)
-parms2 <- c(D=0.2, s1=0.14, m1= 1.6,k1 =0.2,g1=10, m2= 1.4, k2 = 0.03,g2=2)
+#parms2 <- c(D=0.2, s1=0.14, m1= 1.6,k1 =0.2,g1=10, m2= 1.4, k2 = 0.03,g2=2)
 
 eqv1= function(t){exp(D*t)*D*0.01*sin(2*pi*t/24)}
 av1= function(t){integrate(eqv1, lower =  -Inf, upper = t)$value}
@@ -42,7 +42,7 @@ library(gridExtra)
 lista_s=c(0.03,0.06,0.09,0.12,0.15)
 for (i in lista_s){
   times <- seq(from = 0, to = 100, by = 0.1)
-  parms <- c(D=0.2, s1= i, m1= 1.6,k1 =0.2,g1=10, m2= 1.4, k2 = 0.03,g2=2)
+  parms <- c(D=0.2, s1= i, m1= 1.6,k1 =0.2,g1=0.35, m2= 1.4, k2 = 0.03,g2=0.4)
   Y0     <- c(0.001, 0.1, 0.005)
   Y1     <- c(0.001, 0.1, 0.1, 0.1, 0.005)
   out0   <- dede(Y0, times, model, parms = parms)
@@ -50,7 +50,7 @@ for (i in lista_s){
   outdf0=data.frame(out0)
   names(outdf0)=c("Time","Substrate", "Species 1", "Species 2")
   preddf0=melt(outdf0,id.var="Time",variable.name="Species",value.name="Densities")
-  p=ggplot(data=preddf0,aes(x=Time,y=Densities))+geom_path(colour="blue",size=0.7)
+  p=ggplot(data=preddf0,aes(x=Time,y=Densities))+geom_path(colour="blue",size=0.7)+ylim(0, NA)
   p=p+facet_wrap(~Species, scales ="free_y", ncol = 1)
   labelled=p+ 
     xlab(TeX(r"(Time ($h$) )")) +
@@ -64,7 +64,7 @@ for (i in lista_s){
   outdf1=data.frame(M1)
   names(outdf1)=c("Time","Substrate", "Species 1", "Species 2")
   preddf1=melt(outdf1,id.var="Time",variable.name="Species",value.name="Densities")
-  p1=ggplot(data=preddf1,aes(x=Time,y=Densities))+geom_path(colour="red",size=0.7)#geom_line(data=outdf0, color="red") 
+  p1=ggplot(data=preddf1,aes(x=Time,y=Densities))+geom_path(colour="red",size=0.7)+ylim(0, NA) 
   p1=p1+facet_wrap(~Species, scales ="free_y", ncol = 1)
   labelled1=p1+
     xlab(TeX(r"(Time ($h$) )")) +
