@@ -43,8 +43,8 @@ lista_s=c(0.03,0.06,0.09,0.12,0.15)
 for (i in lista_s){
   times <- seq(from = 0, to = 100, by = 0.1)
   parms <- c(D=0.2, s1= i, m1= 1.6,k1 =0.2,g1=0.35, m2= 1.4, k2 = 0.03,g2=0.4)
-  Y0     <- c(0.001, 0.1, 0.005)
-  Y1     <- c(0.001, 0.1, 0.1, 0.1, 0.005)
+  Y0     <- c(0.001, 0.01, 0.005)
+  Y1     <- c(0.001, 0.01, 0.01, 0.01, 0.005)
   out0   <- dede(Y0, times, model, parms = parms)
   out1   <- dede(Y1, times, model1, parms = parms)    
   outdf0=data.frame(out0)
@@ -53,8 +53,8 @@ for (i in lista_s){
   p=ggplot(data=preddf0,aes(x=Time,y=Densities))+geom_path(colour="blue",size=0.7)+ylim(0, NA)
   p=p+facet_wrap(~Species, scales ="free_y", ncol = 1)
   labelled=p+ 
-    xlab(TeX(r"(Time ($h$) )")) +
-    ylab(TeX(r"(Densities ( mg $L^{-1}$) )"))
+    xlab(TeX(r"(Time ($d$) )")) +
+    ylab(TeX(r"(Densities ( $\mu$ mol $L^{-1}$) )"))
   styled=labelled+theme_bw()+theme(
     plot.title = element_text(size=10, hjust = 0.5),
     axis.text = element_text(size = 10),
@@ -67,7 +67,7 @@ for (i in lista_s){
   p1=ggplot(data=preddf1,aes(x=Time,y=Densities))+geom_path(colour="red",size=0.7)+ylim(0, NA) 
   p1=p1+facet_wrap(~Species, scales ="free_y", ncol = 1)
   labelled1=p1+
-    xlab(TeX(r"(Time ($h$) )")) +
+    xlab(TeX(r"(Time ($d$) )")) +
     ylab("")
   styled1=labelled1+theme_bw()+theme(
     plot.title = element_text(size=10, hjust = 0.5),
@@ -83,10 +83,10 @@ for (i in lista_s){
   m2= 1.4 
   k2 = 0.03
   for (j in lista_1){
-  U[j]=av2(j)
-}
-V=spline(lista_1, U, n = 201, method = "fmm")
-Mb<-V$y[1:192]
-Averspl=sum(Mb)*0.125/24
-print(Averspl)
+    U[j]=av2(j)
+  }
+  V=spline(lista_1, U, n = 201, method = "fmm")
+  Mb<-V$y[1:192]
+  Averspl=sum(Mb)*0.125/24
+  print(Averspl)
 }
